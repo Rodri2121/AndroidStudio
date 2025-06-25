@@ -1,0 +1,10 @@
+<resources>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="username_hint">Usuario o email</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button">Ingresar</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_error">Credenciales incorrectas</string>
+    <string name="success_message">Inicio de sesión exitoso</string>"
+    <string name="app_name">LoginTry</string>
+</resources>
