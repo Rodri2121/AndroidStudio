@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.logintry.ui.theme.model.ProfesorDTO
-import com.example.logintry.ui.theme.network.ProfesorApiService
+
 import com.example.logintry.ui.theme.network.RetrofitClient
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.launch

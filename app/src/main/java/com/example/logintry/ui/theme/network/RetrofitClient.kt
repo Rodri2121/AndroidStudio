@@ -35,6 +35,7 @@ object RetrofitClient {
             }
             .build()
 
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
@@ -42,4 +43,28 @@ object RetrofitClient {
             .build()
             .create(ProfesorApiService::class.java)
     }
+    fun createEstudianteApiService(context: Context): EstudianteApiService {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val requestBuilder = original.newBuilder()
+
+                val token = TokenManager.getToken(context)
+                if (!token.isNullOrBlank()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+
+                chain.proceed(requestBuilder.build())
+            }
+            .build()
+
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(EstudianteApiService::class.java)
+    }
+
 }
