@@ -28,6 +28,7 @@ import com.example.logintry.ui.theme.auth.AdminMenuScreen
 import com.example.logintry.ui.theme.auth.LoginScreen
 import com.example.logintry.ui.theme.auth.RegisterScreen
 import com.example.logintry.ui.theme.auth.AddProfesorScreen
+import com.example.logintry.ui.theme.auth.ProfesoresListScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -72,7 +73,9 @@ fun AppNavigation() {
                 },
                 onNavigateToAddStudent = { /* TODO */ },
                 onNavigateToGetStudent = { /* TODO */ },
-                onNavigateToGetTeacher = { /* TODO */ },
+                onNavigateToGetTeacher = {
+                    navController.navigate("profesores")
+                },
                 onLogout = {
                     navController.navigate("login") {
                         popUpTo(0)
@@ -82,6 +85,11 @@ fun AppNavigation() {
         }
         composable("addProfesor") {
             AddProfesorScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("profesores") {
+            ProfesoresListScreen(
                 onBack = { navController.popBackStack() }
             )
         }
