@@ -53,7 +53,7 @@ class ProfesorViewModel(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _profesoresState.value = Resource.Success(it)
-                    } ?: run {
+                    }   ?: run {
                         _profesoresState.value = Resource.Error("Respuesta vacía")
                     }
                 } else {

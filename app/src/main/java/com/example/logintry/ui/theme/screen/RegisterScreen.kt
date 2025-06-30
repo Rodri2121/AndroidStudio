@@ -1,10 +1,9 @@
-package com.example.logintry.ui.theme.auth
+package com.example.logintry.ui.theme.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -49,7 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.material.icons.filled.Person
+import com.example.logintry.ui.theme.auth.RegisterViewModel
 import com.example.logintry.ui.theme.model.RegisterState
 
 @Composable

@@ -22,13 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.logintry.ui.theme.auth.AdminMenuScreen
+import com.example.logintry.ui.theme.screen.AdminMenuScreen
 
 
-import com.example.logintry.ui.theme.auth.LoginScreen
-import com.example.logintry.ui.theme.auth.RegisterScreen
-import com.example.logintry.ui.theme.auth.AddProfesorScreen
-import com.example.logintry.ui.theme.auth.ProfesoresListScreen
+import com.example.logintry.ui.theme.screen.LoginScreen
+import com.example.logintry.ui.theme.screen.RegisterScreen
+import com.example.logintry.ui.theme.screen.AddProfesorScreen
+import com.example.logintry.ui.theme.screen.EstudiantesListScreen
+import com.example.logintry.ui.theme.screen.ProfesoresListScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -72,7 +73,9 @@ fun AppNavigation() {
                     navController.navigate("addProfesor")
                 },
                 onNavigateToAddStudent = { /* TODO */ },
-                onNavigateToGetStudent = { /* TODO */ },
+                onNavigateToGetStudent = {
+                    navController.navigate("estudiantes")
+                                         },
                 onNavigateToGetTeacher = {
                     navController.navigate("profesores")
                 },
@@ -111,6 +114,11 @@ fun AppNavigation() {
                     popUpTo("register") { inclusive = true }
                     }
                 }
+            )
+        }
+        composable ("Estudiantes"){
+            EstudiantesListScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 
