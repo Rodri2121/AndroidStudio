@@ -29,6 +29,7 @@ import com.example.logintry.ui.theme.screen.LoginScreen
 import com.example.logintry.ui.theme.screen.RegisterScreen
 import com.example.logintry.ui.theme.screen.AddProfesorScreen
 import com.example.logintry.ui.theme.screen.EstudiantesListScreen
+import com.example.logintry.ui.theme.screen.EventoFacultativoScreen
 import com.example.logintry.ui.theme.screen.ProfesoresListScreen
 
 
@@ -68,7 +69,9 @@ fun AppNavigation() {
         composable("adminMenu") {
             AdminMenuScreen(
                 onNavigateToCreateEvent = { /* TODO */ },
-                onNavigateToEventDetails = { /* TODO */ },
+                onNavigateToEventDetails = {
+                    navController.navigate("eventos")
+                },
                 onNavigateToAddTeacher = {
                     navController.navigate("addProfesor")
                 },
@@ -118,6 +121,11 @@ fun AppNavigation() {
         }
         composable ("Estudiantes"){
             EstudiantesListScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("eventos"){
+            EventoFacultativoScreen(
                 onBack = { navController.popBackStack() }
             )
         }

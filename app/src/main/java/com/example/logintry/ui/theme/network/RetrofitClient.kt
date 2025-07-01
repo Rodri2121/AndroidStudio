@@ -66,5 +66,30 @@ object RetrofitClient {
             .build()
             .create(EstudianteApiService::class.java)
     }
+    fun createEventoApiService(context: Context): EventoApiService {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val requestBuilder = original.newBuilder()
+
+                val token = TokenManager.getToken(context)
+                if (!token.isNullOrBlank()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+
+                chain.proceed(requestBuilder.build())
+            }
+            .build()
+
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(EventoApiService::class.java)
+    }
+
+
 
 }
