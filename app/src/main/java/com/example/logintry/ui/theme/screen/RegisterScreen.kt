@@ -71,7 +71,6 @@ fun RegisterScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // --- Fondo decorativo ---
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +79,6 @@ fun RegisterScreen(
                 .align(Alignment.TopCenter)
         )
 
-        // --- Tarjeta de registro ---
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,7 +93,7 @@ fun RegisterScreen(
                     .verticalScroll(rememberScrollState()),  // Para scroll si hay muchos campos
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // --- Logo ---
+                // Logo
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = "Registro",
@@ -105,7 +103,7 @@ fun RegisterScreen(
                     tint = MaterialTheme.colorScheme.primary
                 )
 
-                // --- Título ---
+                // Titulo
                 Text(
                     text = "Crear cuenta",
                     style = MaterialTheme.typography.headlineMedium,
@@ -113,7 +111,7 @@ fun RegisterScreen(
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
 
-                // --- Campos del formulario ---
+                // formulario
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it },
@@ -183,7 +181,7 @@ fun RegisterScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // --- Botón de Registro ---
+                // Botón de Registro
                 Button(
                     onClick = {
                         if (password == confirmPassword) {
@@ -215,7 +213,7 @@ fun RegisterScreen(
                     }
                 }
 
-                // --- Botón para volver al Login ---
+                // Botón para volver al Login
                 TextButton(
                     onClick = onBackToLogin,
                     modifier = Modifier.padding(top = 16.dp)
@@ -226,7 +224,7 @@ fun RegisterScreen(
                     )
                 }
 
-                // --- Mensajes de estado ---
+                //  Mensajes de estado
                 when (registerState) {
                     is RegisterState.Error -> {
                         Text(
@@ -237,7 +235,7 @@ fun RegisterScreen(
                     }
                     is RegisterState.Success -> {
                         LaunchedEffect(Unit) {
-                            onRegisterSuccess() // Navega automáticamente al éxito
+                            onRegisterSuccess() // Navega automáticamente al login después del registro
                         }
                     }
                     else -> {}
@@ -245,7 +243,7 @@ fun RegisterScreen(
             }
         }
 
-        // --- Pie de página ---
+        // Pie de página
         Text(
             text = "Versión 1.0",
             modifier = Modifier

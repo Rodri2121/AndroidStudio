@@ -53,7 +53,7 @@ import com.example.logintry.ui.theme.auth.LoginViewModel
 fun LoginScreen(
 
     onLoginSuccess: () -> Unit = {},
-    onNavigateToRegister: () -> Unit = {}  // Added for registration navigation
+    onNavigateToRegister: () -> Unit = {}  // Navegación al registro
 ) {
     val context = LocalContext.current
 
@@ -67,7 +67,7 @@ fun LoginScreen(
     )
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginState = viewModel.loginState // Changed to collectAsState
+    val loginState = viewModel.loginState
 
     Box(
         modifier = Modifier
@@ -83,7 +83,7 @@ fun LoginScreen(
                 .align(Alignment.TopCenter)
         )
 
-        // --- Tarjeta de login ---
+        // Tarjeta de login
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,7 +96,7 @@ fun LoginScreen(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // --- Logo ---
+                // Logo
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = "Login",
@@ -106,7 +106,7 @@ fun LoginScreen(
                     tint = MaterialTheme.colorScheme.primary
                 )
 
-                // --- Título ---
+                //  Título
                 Text(
                     text = "Iniciar sesión",
                     style = MaterialTheme.typography.headlineMedium,
@@ -114,7 +114,7 @@ fun LoginScreen(
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
 
-                // --- Campo: Usuario ---
+                // Campo Usuario
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it },
@@ -129,7 +129,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- Campo: Contraseña ---
+                // Campo Contraseña
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -146,7 +146,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // --- Botón de Login ---
+                // Botón de Login
                 Button(
                     onClick = { viewModel.login(username, password) },
                     modifier = Modifier
@@ -166,9 +166,9 @@ fun LoginScreen(
                     }
                 }
 
-                // --- Botón de Registro ---
+                // Botón de Registro
                 TextButton(
-                    onClick = onNavigateToRegister,  // Added registration button
+                    onClick = onNavigateToRegister,
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
                     Text(
@@ -177,7 +177,7 @@ fun LoginScreen(
                     )
                 }
 
-                // --- Enlace "Olvidé mi contraseña" ---
+                // Olvidé mi contraseña
                 TextButton(
                     onClick = { /* TODO: Navegar a recuperación */ },
                     modifier = Modifier.padding(top = 8.dp)
@@ -188,7 +188,7 @@ fun LoginScreen(
                     )
                 }
 
-                // --- Mensaje de error ---
+                //  Mensaje de error
                 if (loginState is LoginState.Error) {
                     Text(
                         text = (loginState as LoginState.Error).message,
@@ -199,7 +199,7 @@ fun LoginScreen(
             }
         }
 
-        // --- Pie de página ---
+        //Pie de página
         Text(
             text = "Versión 1.0",
             modifier = Modifier

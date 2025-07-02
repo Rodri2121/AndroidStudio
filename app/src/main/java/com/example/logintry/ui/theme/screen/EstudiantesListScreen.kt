@@ -190,7 +190,7 @@ private fun EventosDialog(
 }
 
 @Composable
-private fun EventoItem(evento: EventoDTO) {
+fun EventoItem(evento: EventoDTO) {
     Column {
         Text(
             text = evento.nombreEvento ?: "Evento sin nombre",

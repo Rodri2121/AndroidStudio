@@ -11,6 +11,9 @@ import com.example.logintry.ui.theme.network.RetrofitClient
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import com.example.logintry.ui.theme.model.ProfesorConEventoDTO
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 
 class ProfesorViewModel(
     context: Context
@@ -24,6 +27,11 @@ class ProfesorViewModel(
     // Estado para obtener profesores
     private val _profesoresState = mutableStateOf<Resource<List<ProfesorDTO>>>(Resource.Idle)
     val profesoresState: State<Resource<List<ProfesorDTO>>> get() = _profesoresState
+
+    private val _profesoresConEventosState = mutableStateOf<Resource<List<ProfesorConEventoDTO>>>(Resource.Idle)
+    val profesoresConEventosState: State<Resource<List<ProfesorConEventoDTO>>>
+        get() = _profesoresConEventosState
+
 
     fun guardarProfesor(profesorDTO: ProfesorDTO) {
         _state.value = Resource.Loading
@@ -64,4 +72,29 @@ class ProfesorViewModel(
             }
         }
     }
+    fun obtenerProfesoresConEventos() {
+        viewModelScope.launch {
+            _profesoresConEventosState.value = Resource.Loading
+            try {
+                val profesoresResponse = apiService.obtenerProfesores()
+                if (profesoresResponse.isSuccessful) {
+                    val profesores = profesoresResponse.body() ?: emptyList()
+                    val profesoresConEventos = profesores.map { profesor ->
+                        val detalleResponse = apiService.obtenerEventosPorProfesor(profesor.id!!)
+                        if (detalleResponse.isSuccessful) {
+                            detalleResponse.body() ?: ProfesorConEventoDTO(profesor.id, profesor.nombre, emptyList())
+                        } else {
+                            ProfesorConEventoDTO(profesor.id, profesor.nombre, emptyList())
+                        }
+                    }
+                    _profesoresConEventosState.value = Resource.Success(profesoresConEventos) as Resource<List<ProfesorConEventoDTO>>
+                } else {
+                    _profesoresConEventosState.value = Resource.Error("Error al obtener profesores")
+                }
+            } catch (e: Exception) {
+                _profesoresConEventosState.value = Resource.Error("Error: ${e.message}")
+            }
+        }
+    }
+
 }
