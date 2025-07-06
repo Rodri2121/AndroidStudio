@@ -1,5 +1,4 @@
-package com.example.logintry.ui.theme.model
-import com.google.gson.annotations.SerializedName
+package com.example.logintry.ui.theme.model.dto
 
 data class EstudianteConEventosDTO(
    val id: Int,

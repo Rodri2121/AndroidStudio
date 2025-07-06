@@ -48,7 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.logintry.ui.theme.auth.RegisterViewModel
+import com.example.logintry.ui.theme.ViewModel.RegisterViewModel
 import com.example.logintry.ui.theme.model.RegisterState
 
 @Composable

@@ -1,12 +1,9 @@
-package com.example.logintry.ui.theme.auth
+package com.example.logintry.ui.theme.ViewModel
 
 import android.content.Context
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.logintry.ui.theme.model.LoginRequest

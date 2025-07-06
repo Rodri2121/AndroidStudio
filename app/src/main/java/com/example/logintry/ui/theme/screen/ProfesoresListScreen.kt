@@ -40,8 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
 
-import com.example.logintry.ui.theme.model.ProfesorDTO
-
 import com.example.logintry.ui.theme.util.Resource
 import androidx.compose.material3.AlertDialog
 import androidx.compose.foundation.lazy.items
@@ -51,10 +49,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.buildAnnotatedString
-import com.example.logintry.ui.theme.auth.ProfesorViewModel
-import com.example.logintry.ui.theme.auth.ProfesorViewModelFactory
-import com.example.logintry.ui.theme.model.EventoDTO
-import com.example.logintry.ui.theme.model.ProfesorConEventoDTO
+import com.example.logintry.ui.theme.ViewModel.ProfesorViewModel
+import com.example.logintry.ui.theme.ViewModel.ProfesorViewModelFactory
+import com.example.logintry.ui.theme.model.dto.EventoDTO
+import com.example.logintry.ui.theme.model.dto.ProfesorConEventoDTO
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

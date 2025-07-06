@@ -46,7 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.logintry.ui.theme.auth.LoginViewModel
+import com.example.logintry.ui.theme.ViewModel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

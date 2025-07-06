@@ -1,8 +1,7 @@
 package com.example.logintry.ui.theme.network
 
-import com.example.logintry.ui.theme.model.EventoDTO
-import com.example.logintry.ui.theme.model.ProfesorConEventoDTO
-import com.example.logintry.ui.theme.model.ProfesorDTO
+import com.example.logintry.ui.theme.model.dto.ProfesorConEventoDTO
+import com.example.logintry.ui.theme.model.dto.ProfesorDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

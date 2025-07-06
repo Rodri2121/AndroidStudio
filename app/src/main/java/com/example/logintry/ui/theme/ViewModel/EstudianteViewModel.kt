@@ -1,4 +1,4 @@
-package com.example.logintry.ui.theme.auth
+package com.example.logintry.ui.theme.ViewModel
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
@@ -13,12 +13,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
-import com.example.logintry.ui.theme.model.EstudianteConEventosDTO
-import com.example.logintry.ui.theme.model.EstudianteDTO
-import com.example.logintry.ui.theme.network.EstudianteApiService
-
-
-import kotlinx.coroutines.launch
+import com.example.logintry.ui.theme.model.dto.EstudianteConEventosDTO
 
 
 class EstudianteViewModel (

@@ -37,23 +37,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.unit.dp
-
-import com.example.logintry.ui.theme.model.ProfesorDTO
 
 import com.example.logintry.ui.theme.util.Resource
 
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.logintry.ui.theme.auth.EventoFacultativoViewModel
-import com.example.logintry.ui.theme.auth.EventoFacultativoViewModelFactory
-import com.example.logintry.ui.theme.model.EventoDTO
+import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModel
+import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModelFactory
+import com.example.logintry.ui.theme.model.dto.EventoDTO
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -180,17 +176,15 @@ private fun EventoDialog(
                         Text("Profesor Asignado: ${evento.nombreProfesor ?: "No asignado"}")
                         Spacer(modifier = Modifier.height(8.dp))
                         Text("Estudiantes Asignados:", style = MaterialTheme.typography.bodyMedium)
-                        if (evento.estudiantes.isNullOrEmpty()) {
+                        if (evento.estudiantesIds.isNullOrEmpty()) {
                             Text("No hay estudiantes asignados", style = MaterialTheme.typography.bodySmall)
                         } else {
                             Column {
-                                evento.estudiantes.forEach { estudiante ->
+                                evento.estudiantes?.forEach { estudiante ->
                                     Text("• ${estudiante.nombre ?: "Estudiante sin nombre"}",
                                         style = MaterialTheme.typography.bodySmall,
                                         modifier = Modifier.padding(start = 8.dp)
-
                                     )
-
                                 }
                             }
                         }

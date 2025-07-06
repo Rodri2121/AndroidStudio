@@ -1,4 +1,4 @@
-package com.example.logintry.ui.theme.auth
+package com.example.logintry.ui.theme.ViewModel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

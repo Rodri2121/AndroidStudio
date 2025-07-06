@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.logintry.ui.theme.auth.ProfesorViewModel
-import com.example.logintry.ui.theme.model.ProfesorDTO
+import com.example.logintry.ui.theme.ViewModel.ProfesorViewModel
+import com.example.logintry.ui.theme.model.dto.ProfesorDTO
 
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.delay

@@ -1,19 +1,17 @@
-package com.example.logintry.ui.theme.auth
+package com.example.logintry.ui.theme.ViewModel
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-import com.example.logintry.ui.theme.model.ProfesorDTO
+import com.example.logintry.ui.theme.model.dto.ProfesorDTO
 
 import com.example.logintry.ui.theme.network.RetrofitClient
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
-import com.example.logintry.ui.theme.model.ProfesorConEventoDTO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import com.example.logintry.ui.theme.model.dto.ProfesorConEventoDTO
 
 class ProfesorViewModel(
     context: Context

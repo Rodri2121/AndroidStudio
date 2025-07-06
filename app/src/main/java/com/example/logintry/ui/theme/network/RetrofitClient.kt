@@ -8,9 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://10.0.2.2:8080/" // Cambia si usas IP real
+    private const val BASE_URL = "http://10.0.2.2:8080/"
 
-    // Servicio sin autenticación (para login)
+    // Servicio login
     val apiService: AuthApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
