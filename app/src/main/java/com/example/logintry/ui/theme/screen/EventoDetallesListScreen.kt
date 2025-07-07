@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 
@@ -43,7 +44,10 @@ import androidx.compose.ui.unit.dp
 import com.example.logintry.ui.theme.util.Resource
 
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,17 +59,20 @@ import com.example.logintry.ui.theme.model.dto.EventoDTO
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventoFacultativoScreen(
-    onBack: () -> Unit,
+    onBack: () -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: EventoFacultativoViewModel = viewModel(
         factory = EventoFacultativoViewModelFactory(context)
     )
+
     var eventoSeleccionado by remember { mutableStateOf<EventoDTO?>(null) }
+    var eventoAEditar by remember { mutableStateOf<EventoDTO?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.obtenerEventos()
     }
+
     val state by viewModel.eventosState
 
     Scaffold(
@@ -92,21 +99,24 @@ fun EventoFacultativoScreen(
                 onRetry = { viewModel.obtenerEventos() },
                 modifier = Modifier.padding(padding)
             )
-
-
-
-
             else -> {}
         }
 
-        // Diálogo fuera del when pero dentro del Scaffold
         eventoSeleccionado?.let { evento ->
-            EventoDialog (
+            EventoDialog(
                 evento = evento,
-                onDismiss = { eventoSeleccionado = null }
+                onDismiss = { eventoSeleccionado = null },
+                onEditar = {
+                    eventoAEditar = it
+                    // Aquí podrías navegar a una pantalla de edición y pasarle eventoAEditar
+                },
+                onEliminar = {
+                    viewModel.eliminarEvento(it.id!!)
+                    eventoSeleccionado = null
+                }
             )
         }
-    } // Cierre del Scaffold
+    }
 }
 
 
@@ -158,50 +168,75 @@ private fun EventoCard(
 @Composable
 private fun EventoDialog(
     evento: EventoDTO,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onEditar: (EventoDTO) -> Unit = {},
+    onEliminar: (EventoDTO) -> Unit = {}
 ) {
+    var menuExpandido by remember { mutableStateOf(false) }
+
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Detalles del Evento") },
-        text = {
-            Column {
-                when{
-                    evento.nombreEvento.isNullOrEmpty() -> {
-                        Text("No hay eventos registrados")
+        title = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Detalles del Evento")
+                Box {
+                    IconButton(onClick = { menuExpandido = true }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "Más opciones")
                     }
-                    else -> {
-                        Text("Nombre del Evento: ${evento.nombreEvento ?: "No disponible"}")
-                        Text("Fecha de Inicio: ${evento.fechaInicio ?: "No disponible"}")
-                        Text("Fecha de Fin: ${evento.fechaFin ?: "No disponible"}")
-                        Text("Profesor Asignado: ${evento.nombreProfesor ?: "No asignado"}")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Estudiantes Asignados:", style = MaterialTheme.typography.bodyMedium)
-                        if (evento.estudiantesIds.isNullOrEmpty()) {
-                            Text("No hay estudiantes asignados", style = MaterialTheme.typography.bodySmall)
-                        } else {
-                            Column {
-                                evento.estudiantes?.forEach { estudiante ->
-                                    Text("• ${estudiante.nombre ?: "Estudiante sin nombre"}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        modifier = Modifier.padding(start = 8.dp)
-                                    )
-                                }
+                    DropdownMenu(
+                        expanded = menuExpandido,
+                        onDismissRequest = { menuExpandido = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Actualizar") },
+                            onClick = {
+                                menuExpandido = false
+                                onEditar(evento)
                             }
-                        }
-
-
-
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Eliminar") },
+                            onClick = {
+                                menuExpandido = false
+                                onEliminar(evento)
+                            }
+                        )
                     }
                 }
-
             }
-        }, // Cierre del text
+        },
+        text = {
+            Column {
+                Text("Nombre del Evento: ${evento.nombreEvento ?: "No disponible"}")
+                Text("Fecha de Inicio: ${evento.fechaInicio ?: "No disponible"}")
+                Text("Fecha de Fin: ${evento.fechaFin ?: "No disponible"}")
+                Text("Profesor Asignado: ${evento.nombreProfesor ?: "No asignado"}")
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Estudiantes Asignados:", style = MaterialTheme.typography.bodyMedium)
+                if (evento.estudiantesIds.isNullOrEmpty()) {
+                    Text("No hay estudiantes asignados", style = MaterialTheme.typography.bodySmall)
+                } else {
+                    Column {
+                        evento.estudiantes?.forEach { estudiante ->
+                            Text("• ${estudiante.nombre ?: "Estudiante sin nombre"}",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        },
         confirmButton = {
             Button(onClick = onDismiss) {
                 Text("Cerrar")
             }
         }
-    ) // Cierre del AlertDialog
+    )
 }
 
 //@Composable

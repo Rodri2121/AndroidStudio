@@ -4,6 +4,7 @@ import com.example.logintry.ui.theme.model.dto.EventoDTO
 import com.example.logintry.ui.theme.model.dto.EventoFacultativoRequest
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -16,4 +17,7 @@ interface EventoApiService {
         @Path("profesorId") profesorId: Int,
         @Body evento: EventoFacultativoRequest // <- Sin incluir profesorId aquí
     ): Response<EventoDTO>
+    @DELETE("api/eventos/delete/{id}")
+    suspend fun eliminarEvento(@Path("id") id: Int): Response<Unit>
+
 }

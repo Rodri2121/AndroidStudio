@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.logintry.ui.theme.screen.AddEstudianteScreen
 import com.example.logintry.ui.theme.screen.AdminMenuScreen
 
 
@@ -77,7 +78,9 @@ fun AppNavigation() {
                 onNavigateToAddTeacher = {
                     navController.navigate("addProfesor")
                 },
-                onNavigateToAddStudent = { /* TODO */ },
+                onNavigateToAddStudent = {
+                    navController.navigate("AddEstudiante")
+                                         },
                 onNavigateToGetStudent = {
                     navController.navigate("estudiantes")
                                          },
@@ -93,6 +96,11 @@ fun AppNavigation() {
         }
         composable("addProfesor") {
             AddProfesorScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("addEstudiante") {
+            AddEstudianteScreen(
                 onBack = { navController.popBackStack() }
             )
         }

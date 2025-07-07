@@ -26,9 +26,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
@@ -41,11 +43,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 
@@ -55,6 +60,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.zIndex
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.delay
 import java.util.Calendar
@@ -92,11 +98,33 @@ fun CreateEventoFacultativoScreen(
 
     val state by viewModel.eventosState
 
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        IconButton(
+            onClick = onBack,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp)
+                .size(48.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+                    shape = CircleShape
+                )
+                .zIndex(1f)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver",
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+        }
+
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()

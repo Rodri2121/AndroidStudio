@@ -172,7 +172,23 @@ class EventoFacultativoViewModel(
             }
         }
     }
+    fun eliminarEvento(id: Int) {
+        viewModelScope.launch {
+            _eventosState.value = Resource.Loading
+            try {
+                val response = apiService.eliminarEvento(id)
+                if (response.isSuccessful) {
+                    obtenerEventos()
 
+                }else{
+                    _eventosState.value = Resource.Error("Error al eliminar el evento")
+                }
+            } catch (e: Exception) {
+                _eventosState.value = Resource.Error("Error")
 
+            }
+        }
+
+    }
 
 }
