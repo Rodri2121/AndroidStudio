@@ -1,5 +1,6 @@
 package com.example.logintry.ui.theme.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -63,6 +65,7 @@ fun RegisterScreen(
     var firstname by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
     var pais by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     val registerState by viewModel.registerState
 
@@ -103,7 +106,6 @@ fun RegisterScreen(
                     tint = MaterialTheme.colorScheme.primary
                 )
 
-                // Titulo
                 Text(
                     text = "Crear cuenta",
                     style = MaterialTheme.typography.headlineMedium,
@@ -184,16 +186,22 @@ fun RegisterScreen(
                 // Botón de Registro
                 Button(
                     onClick = {
-                        if (password == confirmPassword) {
-                            viewModel.register(
-                                username,
-                                password,
-                                firstname,
-                                lastname,
-                                pais
-                            )
-                        } else {
-                            // Mostrar error de contraseñas no coincidentes
+                        when {
+                            username.isBlank() || password.isBlank() || confirmPassword.isBlank() -> {
+                                Toast.makeText(context, "Completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
+                            }
+                            password != confirmPassword -> {
+                                Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                viewModel.register(
+                                    username.trim(),
+                                    password.trim(),
+                                    firstname.trim(),
+                                    lastname.trim(),
+                                    pais.trim()
+                                )
+                            }
                         }
                     },
                     modifier = Modifier
@@ -238,7 +246,9 @@ fun RegisterScreen(
                             onRegisterSuccess() // Navega automáticamente al login después del registro
                         }
                     }
-                    else -> {}
+                    else -> {
+
+                    }
                 }
             }
         }
