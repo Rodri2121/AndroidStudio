@@ -66,6 +66,7 @@ dependencies {
 
 // Material Design 3
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.v120)
 
 // Ktor
     implementation(libs.ktor.client.core)

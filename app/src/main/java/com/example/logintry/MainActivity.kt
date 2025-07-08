@@ -38,6 +38,7 @@ import com.example.logintry.ui.theme.screen.EditarEventoFacultativoScreen
 import com.example.logintry.ui.theme.screen.EstudiantesListScreen
 import com.example.logintry.ui.theme.screen.EventoFacultativoScreen
 import com.example.logintry.ui.theme.screen.ProfesoresListScreen
+import com.example.logintry.ui.theme.theme.AppTheme
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            AppTheme {
                 AppNavigation()
             }
         }

@@ -1,5 +1,6 @@
 package com.example.logintry.ui.theme.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
@@ -34,18 +35,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 import androidx.compose.ui.unit.dp
-
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import com.example.logintry.ui.theme.model.LoginState
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.logintry.R
 import com.example.logintry.ui.theme.ViewModel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,18 +82,38 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+
     ) {
-        // --- Fondo decorativo ---
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(280.dp)
-                .background(MaterialTheme.colorScheme.primary)
-                .align(Alignment.TopCenter)
-        )
+        Box(modifier = Modifier.fillMaxSize()){
+            Image(
+                painter = painterResource(id = R.drawable.stacked_peaks_haikei),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.2f),
+                                Color.Transparent
+                            )
+                        )
+                    )
+            )
+        }
+
+
+
 
         // Tarjeta de login
         Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
@@ -98,8 +127,10 @@ fun LoginScreen(
             ) {
                 // Logo
                 Icon(
-                    imageVector = Icons.Default.Lock,
+                    imageVector = Icons.Default.Person,
+
                     contentDescription = "Login",
+
                     modifier = Modifier
                         .size(80.dp)
                         .padding(bottom = 16.dp),
@@ -109,9 +140,13 @@ fun LoginScreen(
                 //  Título
                 Text(
                     text = "Iniciar sesión",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(bottom = 24.dp)
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.SansSerif
+
+                    ),
+                    color = Color.Gray,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
 
                 // Campo Usuario
