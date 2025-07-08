@@ -1,5 +1,6 @@
 package com.example.logintry.ui.theme.screen
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -9,7 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 
@@ -51,6 +53,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavHostController
 import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModel
 import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModelFactory
 import com.example.logintry.ui.theme.model.dto.EventoDTO
@@ -59,7 +62,8 @@ import com.example.logintry.ui.theme.model.dto.EventoDTO
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventoFacultativoScreen(
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onEditarEvento: (EventoDTO) -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: EventoFacultativoViewModel = viewModel(
@@ -67,7 +71,6 @@ fun EventoFacultativoScreen(
     )
 
     var eventoSeleccionado by remember { mutableStateOf<EventoDTO?>(null) }
-    var eventoAEditar by remember { mutableStateOf<EventoDTO?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.obtenerEventos()
@@ -106,9 +109,10 @@ fun EventoFacultativoScreen(
             EventoDialog(
                 evento = evento,
                 onDismiss = { eventoSeleccionado = null },
-                onEditar = {
-                    eventoAEditar = it
-                    // Aquí podrías navegar a una pantalla de edición y pasarle eventoAEditar
+                onEditarEvento = {
+                    eventoSeleccionado = null
+                    onEditarEvento(it)
+
                 },
                 onEliminar = {
                     viewModel.eliminarEvento(it.id!!)
@@ -169,7 +173,7 @@ private fun EventoCard(
 private fun EventoDialog(
     evento: EventoDTO,
     onDismiss: () -> Unit,
-    onEditar: (EventoDTO) -> Unit = {},
+    onEditarEvento: (EventoDTO) -> Unit,
     onEliminar: (EventoDTO) -> Unit = {}
 ) {
     var menuExpandido by remember { mutableStateOf(false) }
@@ -195,7 +199,7 @@ private fun EventoDialog(
                             text = { Text("Actualizar") },
                             onClick = {
                                 menuExpandido = false
-                                onEditar(evento)
+                                onEditarEvento(evento)
                             }
                         )
                         DropdownMenuItem(
@@ -238,40 +242,6 @@ private fun EventoDialog(
         }
     )
 }
-
-//@Composable
-//private fun EventoDialog(
-//    evento: EventoDTO,
-//    onDismiss: () -> Unit
-//) {
-//    AlertDialog(
-//        onDismissRequest = onDismiss,
-//        title = { Text("Detalles del Evento") },
-//        text = {
-//            Column {
-//                when{
-//                    evento.nombreEvento.isNullOrEmpty() -> {
-//                        Text("No hay eventos registrados")
-//                    }
-//                    else -> {
-//                        evento.nombreEvento.forEachIndexed { index, evento ->
-//                            EventosItem(evento = evento)
-//                            if (index < evento.size - 1) {
-//                                Divider(modifier = Modifier.padding(vertical = 8.dp))
-//                            }
-//                        }
-//                    }
-//
-//                }
-//            }
-//        },
-//        confirmButton = {
-//            Button(onClick = onDismiss) {
-//                Text("Cerrar")
-//            }
-//        }
-//    )
-//}
 
 
 @Composable

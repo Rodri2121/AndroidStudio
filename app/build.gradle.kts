@@ -59,15 +59,15 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 
-// ViewModel/Lifecycle (usar versión estable más reciente)
+// ViewModel/Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-// Material Design 3 (usar versión del BOM)
+// Material Design 3
     implementation(libs.androidx.material3)
 
-// Ktor (si es necesario)
+// Ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
@@ -77,6 +77,7 @@ dependencies {
 
 
 
-// o la más reciente
+
+
 
 }

@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.dp
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.zIndex
+import com.example.logintry.ui.theme.model.dto.EventoDTO
 import com.example.logintry.ui.theme.util.Resource
 import kotlinx.coroutines.delay
 import java.util.Calendar
@@ -69,6 +70,7 @@ import java.util.Calendar
 @Composable
 fun CreateEventoFacultativoScreen(
     onBack: () -> Unit,
+
 ) {
     val context = LocalContext.current
     val viewModel: EventoFacultativoViewModel = viewModel(

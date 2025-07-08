@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface EventoApiService {
@@ -15,9 +16,15 @@ interface EventoApiService {
     @POST("api/eventos/profesor/{profesorId}/save")
     suspend fun crearEvento(
         @Path("profesorId") profesorId: Int,
-        @Body evento: EventoFacultativoRequest // <- Sin incluir profesorId aquí
+        @Body evento: EventoFacultativoRequest
     ): Response<EventoDTO>
     @DELETE("api/eventos/delete/{id}")
     suspend fun eliminarEvento(@Path("id") id: Int): Response<Unit>
+    @PUT("api/eventos/update/{id}")
+    suspend fun actualizarEvento(
+        @Path("id") id: Int,
+        @Body evento: EventoFacultativoRequest
+    ): Response<EventoDTO>
+
 
 }

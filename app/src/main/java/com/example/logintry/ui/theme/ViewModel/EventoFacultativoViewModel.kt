@@ -190,5 +190,27 @@ class EventoFacultativoViewModel(
         }
 
     }
+    fun actualizarEvento(id: Int, request: EventoFacultativoRequest) {
+        viewModelScope.launch {
+            _eventosState.value = Resource.Loading
+            try {
+                val response = apiService.actualizarEvento(id, request)
+                if (response.isSuccessful) {
+                    val actualizado = response.body()
+                    if (actualizado != null) {
+                        _eventosState.value = Resource.Success(listOf(actualizado))
+                    } else {
+                        _eventosState.value = Resource.Error("Respuesta vacía del servidor")
+                    }
+                } else {
+                    val error = response.errorBody()?.string() ?: "Error ${response.code()}"
+                    _eventosState.value = Resource.Error(error)
+                }
+            } catch (e: Exception) {
+                _eventosState.value = Resource.Error(e.message ?: "Error desconocido")
+            }
+        }
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.logintry
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,9 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.logintry.ui.theme.model.dto.EventoDTO
 import com.example.logintry.ui.theme.screen.AddEstudianteScreen
 import com.example.logintry.ui.theme.screen.AdminMenuScreen
 
@@ -30,9 +34,12 @@ import com.example.logintry.ui.theme.screen.LoginScreen
 import com.example.logintry.ui.theme.screen.RegisterScreen
 import com.example.logintry.ui.theme.screen.AddProfesorScreen
 import com.example.logintry.ui.theme.screen.CreateEventoFacultativoScreen
+import com.example.logintry.ui.theme.screen.EditarEventoFacultativoScreen
 import com.example.logintry.ui.theme.screen.EstudiantesListScreen
 import com.example.logintry.ui.theme.screen.EventoFacultativoScreen
 import com.example.logintry.ui.theme.screen.ProfesoresListScreen
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 
 
 class MainActivity : ComponentActivity() {
@@ -54,7 +61,6 @@ fun AppNavigation() {
         navController = navController,
         startDestination = "login"
     ) {
-        // Pantalla de Login
         composable("login") {
             LoginScreen(
                 onLoginSuccess = {
@@ -67,11 +73,12 @@ fun AppNavigation() {
                 }
             )
         }
-        // Nueva pantalla de administrador
+
         composable("adminMenu") {
             AdminMenuScreen(
                 onNavigateToCreateEvent = {
-                    navController.navigate("Crear Evento") },
+                    navController.navigate("Crear Evento")
+                },
                 onNavigateToEventDetails = {
                     navController.navigate("eventos")
                 },
@@ -79,11 +86,11 @@ fun AppNavigation() {
                     navController.navigate("addProfesor")
                 },
                 onNavigateToAddStudent = {
-                    navController.navigate("AddEstudiante")
-                                         },
+                    navController.navigate("addEstudiante")
+                },
                 onNavigateToGetStudent = {
-                    navController.navigate("estudiantes")
-                                         },
+                    navController.navigate("Estudiantes")
+                },
                 onNavigateToGetTeacher = {
                     navController.navigate("profesores")
                 },
@@ -94,67 +101,71 @@ fun AppNavigation() {
                 }
             )
         }
+
         composable("addProfesor") {
-            AddProfesorScreen(
-                onBack = { navController.popBackStack() }
-            )
-        }
-        composable("addEstudiante") {
-            AddEstudianteScreen(
-                onBack = { navController.popBackStack() }
-            )
-        }
-        composable("profesores") {
-            ProfesoresListScreen(
-                onBack = { navController.popBackStack() }
-            )
+            AddProfesorScreen(onBack = { navController.popBackStack() })
         }
 
-        // Pantalla de Registro
+        composable("addEstudiante") {
+            AddEstudianteScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable("profesores") {
+            ProfesoresListScreen(onBack = { navController.popBackStack() })
+        }
+
         composable("register") {
             RegisterScreen(
-                onBackToLogin = {
-                    navController.popBackStack() // Vuelve atrás (a login)
-                },
+                onBackToLogin = { navController.popBackStack() },
                 onRegisterSuccess = {
-                    // Opción 1: Ir directamente a home tras registro
-//                    navController.navigate("home") {
-//                        popUpTo("login") { inclusive = true }
-//                    }
-
-                    // Opción 2: O volver a login para que el usuario inicie sesión
                     navController.navigate("login") {
-                    popUpTo("register") { inclusive = true }
+                        popUpTo("register") { inclusive = true }
                     }
                 }
             )
         }
-        composable("Crear Evento"){
-            CreateEventoFacultativoScreen(
-                onBack = { navController.popBackStack() }
-            )
+
+        composable("Crear Evento") {
+            CreateEventoFacultativoScreen(onBack = { navController.popBackStack() })
         }
-        composable ("Estudiantes"){
-            EstudiantesListScreen(
-                onBack = { navController.popBackStack() }
-            )
+
+        composable("Estudiantes") {
+            EstudiantesListScreen(onBack = { navController.popBackStack() })
         }
-        composable("eventos"){
+
+        composable("eventos") {
             EventoFacultativoScreen(
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onEditarEvento = { evento ->
+                    val jsonEvento = Uri.encode(Json.encodeToString<EventoDTO>(evento))
+                    navController.navigate("editarEvento/$jsonEvento")
+                }
             )
         }
 
-        // Pantalla de Home
+        composable(
+            route = "editarEvento/{eventoJson}",
+            arguments = listOf(navArgument("eventoJson") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val eventoJson = backStackEntry.arguments?.getString("eventoJson")
+            val evento = eventoJson?.let { Json.decodeFromString<EventoDTO>(it) }
+
+            if (evento != null) {
+                EditarEventoFacultativoScreen(
+                    eventoOriginal = evento,
+                    onBack = { navController.popBackStack() }
+                )
+            } else {
+                Text("Error al cargar evento")
+            }
+        }
+
         composable("home") {
-            HomeScreen(
-                onLogout = {
-                    // Navega a login y limpia el back stack
-                    navController.navigate("login") {
-                        popUpTo(0)
-                    }
+            HomeScreen(onLogout = {
+                navController.navigate("login") {
+                    popUpTo(0)
                 }
-            )
+            })
         }
     }
 }

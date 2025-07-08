@@ -1,5 +1,8 @@
 package com.example.logintry.ui.theme.model.dto
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 data class EventoDTO (
     val id: Int,
     val nombreEvento: String? = "",
