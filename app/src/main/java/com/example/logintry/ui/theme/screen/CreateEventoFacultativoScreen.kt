@@ -65,6 +65,7 @@ import androidx.compose.ui.unit.dp
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -141,74 +142,59 @@ fun CreateEventoFacultativoScreen(
                 .padding(horizontal = 24.dp)
                 .align(Alignment.Center),
             shape = RoundedCornerShape(20.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
-            colors = CardDefaults.cardColors(tarjeta)
+            elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Build,
+            Box(modifier = Modifier.fillMaxWidth()){
+                Image(
+                    painter = painterResource(R.drawable.stacked_peaks_haikei),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Box(
                     modifier = Modifier
-                        .size(80.dp)
-                        .padding(bottom = 16.dp)
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0.2f),
+                                    Color.Transparent
+                                )
+                            )
+                        )
                 )
-
-                Text(
-                    text = "Crear evento",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = Color(0xCC182425),
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
-
-                //Nombre
-                OutlinedTextField(
-                    value = nombreEvento,
-                    onValueChange = { nombreEvento = it },
-                    label = { Text("Nombre del evento*") },
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = { Icon(Icons.Default.Build, contentDescription = null) },
-                    shape = RoundedCornerShape(16.dp),
-                    singleLine = true,
-                    maxLines = 1,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        focusedIndicatorColor = Color(0xFF00796B),
-                        unfocusedIndicatorColor = Color(0xFFB2DFDB),
-                        cursorColor = Color(0xFF00796B)
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                //Fecha inicio
-                DatePickerField("Fecha de inicio", fechaInicio) { fechaInicio = it }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                //Fecha fin
-                DatePickerField("Fecha de fin", fechaFin) { fechaFin = it }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                //Selector profesor
-                Box {
-                    OutlinedTextField(
-                        value = profesorSeleccionado,
-                        onValueChange = {},
+                Column(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Build,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { profesorExpandido = true },
-                        label = { Text("Profesor*") },
-                        readOnly = true,
+                            .size(80.dp)
+                            .padding(bottom = 16.dp)
+                    )
+
+                    Text(
+                        text = "Crear evento",
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        color = Color(0xCC182425),
+                        modifier = Modifier.padding(bottom = 24.dp)
+                    )
+
+                    //Nombre
+                    OutlinedTextField(
+                        value = nombreEvento,
+                        onValueChange = { nombreEvento = it },
+                        label = { Text("Nombre del evento*") },
+                        modifier = Modifier.fillMaxWidth(),
+                        leadingIcon = { Icon(Icons.Default.Build, contentDescription = null) },
                         shape = RoundedCornerShape(16.dp),
-                        leadingIcon = { Icon(Icons.Default.Person, null) },
+                        singleLine = true,
+                        maxLines = 1,
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.White,
                             unfocusedContainerColor = Color.White,
@@ -218,113 +204,149 @@ fun CreateEventoFacultativoScreen(
                         )
                     )
 
-                    DropdownMenu(
-                        expanded = profesorExpandido,
-                        onDismissRequest = { profesorExpandido = false }
-                    ) {
-                        profesores.forEach { profesor ->
-                            DropdownMenuItem(
-                                text = { Text(profesor.nombre) },
-                                onClick = {
-                                    profesorSeleccionado = profesor.nombre
-                                    profesorIdSeleccionado = profesor.id
-                                    profesorExpandido = false
-                                }
-                            )
-                        }
-                    }
-                }
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    //Fecha inicio
+                    DatePickerField("Fecha de inicio", fechaInicio) { fechaInicio = it }
 
-                // Estudiantes
-                Text(
-                    text = "Seleccionar estudiantes",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                estudiantes.forEach { estudiante ->
-                    val isChecked = estudiante.id in estudiantesSeleccionados
-                    val buttonColor = Color(0xFFE0F2F1)
-                    val contentColor = Color(0xFFFFFFFF)
+                    //Fecha fin
+                    DatePickerField("Fecha de fin", fechaFin) { fechaFin = it }
 
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                        colors = CardDefaults.cardColors(contentColor)
-                    ) {
-                        Row(
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    //Selector profesor
+                    Box {
+                        OutlinedTextField(
+                            value = profesorSeleccionado,
+                            onValueChange = {},
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable {
-                                    if (isChecked) estudiantesSeleccionados.remove(estudiante.id)
-                                    else estudiante.id?.let { estudiantesSeleccionados.add(it) }
-                                }
-                                .padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Checkbox(
-                                checked = isChecked,
-                                onCheckedChange = {
-                                    if (it) estudiante.id?.let { id -> estudiantesSeleccionados.add(id) }
-                                    else estudiante.id?.let { estudiantesSeleccionados.remove(it) }
-                                }
+                                .clickable { profesorExpandido = true },
+                            label = { Text("Profesor*") },
+                            readOnly = true,
+                            shape = RoundedCornerShape(16.dp),
+                            leadingIcon = { Icon(Icons.Default.Person, null) },
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedIndicatorColor = Color(0xFF00796B),
+                                unfocusedIndicatorColor = Color(0xFFB2DFDB),
+                                cursorColor = Color(0xFF00796B)
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(estudiante.nombre)
+                        )
+
+                        DropdownMenu(
+                            expanded = profesorExpandido,
+                            onDismissRequest = { profesorExpandido = false }
+                        ) {
+                            profesores.forEach { profesor ->
+                                DropdownMenuItem(
+                                    text = { Text(profesor.nombre) },
+                                    onClick = {
+                                        profesorSeleccionado = profesor.nombre
+                                        profesorIdSeleccionado = profesor.id
+                                        profesorExpandido = false
+                                    }
+                                )
+                            }
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                // Botón
-                Button(
-                    onClick = {
-                        viewModel.crearEvento(
-                            nombreEvento,
-                            fechaInicio,
-                            fechaFin,
-                            profesorIdSeleccionado,
-                            estudiantesSeleccionados.toList()
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
-                ) {
-                    if (state is Resource.Loading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Text(
-                            text = "Crear evento",
-                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
+                    // Estudiantes
+                    Text(
+                        text = "Seleccionar estudiantes",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color(0xCC182425),
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    estudiantes.forEach { estudiante ->
+                        val isChecked = estudiante.id in estudiantesSeleccionados
+                        val buttonColor = Color(0xFFE0F2F1)
+                        val contentColor = Color(0xFFFFFFFF)
+
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                            colors = CardDefaults.cardColors(contentColor)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        if (isChecked) estudiantesSeleccionados.remove(estudiante.id)
+                                        else estudiante.id?.let { estudiantesSeleccionados.add(it) }
+                                    }
+                                    .padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = {
+                                        if (it) estudiante.id?.let { id -> estudiantesSeleccionados.add(id) }
+                                        else estudiante.id?.let { estudiantesSeleccionados.remove(it) }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(estudiante.nombre)
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Botón
+                    Button(
+                        onClick = {
+                            viewModel.crearEvento(
+                                nombreEvento,
+                                fechaInicio,
+                                fechaFin,
+                                profesorIdSeleccionado,
+                                estudiantesSeleccionados.toList()
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
+                    ) {
+                        if (state is Resource.Loading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Text(
+                                text = "Crear evento",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
                     }
                 }
             }
         }
-    }
 
 
-    if (state is Resource.Success<*>) {
-        LaunchedEffect(Unit) {
-            Toast.makeText(context, "Evento creado correctamente", Toast.LENGTH_SHORT).show()
-            delay(1000)
-            onBack()
+        if (state is Resource.Success<*>) {
+            LaunchedEffect(Unit) {
+                Toast.makeText(context, "Evento creado correctamente", Toast.LENGTH_SHORT).show()
+                delay(1000)
+                onBack()
+            }
         }
-    }
+            }
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.example.logintry.ui.theme.screen
 
 import android.net.Uri
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -53,7 +55,14 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.logintry.R
 import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModel
 import com.example.logintry.ui.theme.ViewModel.EventoFacultativoViewModelFactory
 import com.example.logintry.ui.theme.model.dto.EventoDTO
@@ -81,7 +90,13 @@ fun EventoFacultativoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Eventos") },
+                title = { Text("Lista de Eventos",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold
+                ) },
+
+
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Volver")
@@ -90,38 +105,66 @@ fun EventoFacultativoScreen(
             )
         }
     ) { padding ->
-        when (val currentState = state) {
-            Resource.Loading -> FullScreenLoader()
-            is Resource.Success -> EventoListContent(
-                eventos = currentState.data ?: emptyList(),
-                onItemClick = { eventoSeleccionado = it },
-                modifier = Modifier.padding(padding)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            // Fondo con imagen
+            Image(
+                painter = painterResource(R.drawable.stacked_waves_haikei),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
-            is Resource.Error -> ErrorState(
-                message = currentState.message ?: "Error desconocido",
-                onRetry = { viewModel.obtenerEventos() },
-                modifier = Modifier.padding(padding)
-            )
-            else -> {}
-        }
 
-        eventoSeleccionado?.let { evento ->
-            EventoDialog(
-                evento = evento,
-                onDismiss = { eventoSeleccionado = null },
-                onEditarEvento = {
-                    eventoSeleccionado = null
-                    onEditarEvento(it)
-
-                },
-                onEliminar = {
-                    viewModel.eliminarEvento(it.id!!)
-                    eventoSeleccionado = null
-                }
+            // Gradiente encima de la imagen
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.01f),
+                                Color.Transparent
+                            )
+                        )
+                    )
             )
+
+            // Contenido
+            when (val currentState = state) {
+                Resource.Loading -> FullScreenLoader()
+                is Resource.Success -> EventoListContent(
+                    eventos = currentState.data ?: emptyList(),
+                    onItemClick = { eventoSeleccionado = it }
+                )
+                is Resource.Error -> ErrorState(
+                    message = currentState.message ?: "Error desconocido",
+                    onRetry = { viewModel.obtenerEventos() }
+                )
+                else -> {}
+            }
+
+            eventoSeleccionado?.let { evento ->
+                EventoDialog(
+                    evento = evento,
+                    onDismiss = { eventoSeleccionado = null },
+                    onEditarEvento = {
+                        eventoSeleccionado = null
+                        onEditarEvento(it)
+                    },
+                    onEliminar = {
+                        viewModel.eliminarEvento(it.id!!)
+                        eventoSeleccionado = null
+                    }
+                )
+            }
         }
     }
 }
+
+
 
 
 
@@ -152,7 +195,8 @@ private fun EventoCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -179,6 +223,7 @@ private fun EventoDialog(
     var menuExpandido by remember { mutableStateOf(false) }
 
     AlertDialog(
+        containerColor = MaterialTheme.colorScheme.surface,
         onDismissRequest = onDismiss,
         title = {
             Row(
