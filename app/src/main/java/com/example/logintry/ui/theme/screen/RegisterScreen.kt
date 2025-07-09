@@ -121,7 +121,8 @@ fun RegisterScreen(
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.Person, null) },
                     shape = RoundedCornerShape(12.dp),
-                    singleLine = true
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -133,7 +134,9 @@ fun RegisterScreen(
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.Lock, null) },
                     visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -145,7 +148,9 @@ fun RegisterScreen(
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.Lock, null) },
                     visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -156,7 +161,9 @@ fun RegisterScreen(
                     label = { Text("Nombre") },
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.AccountBox, null) },
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -167,7 +174,9 @@ fun RegisterScreen(
                     label = { Text("Apellido") },
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.AccountBox, null) },
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -178,7 +187,9 @@ fun RegisterScreen(
                     label = { Text("País") },
                     modifier = Modifier.fillMaxWidth(),
                     leadingIcon = { Icon(Icons.Default.LocationOn, null) },
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    maxLines = 1
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

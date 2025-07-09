@@ -213,15 +213,15 @@ fun LoginScreen(
                 }
 
                 // Olvidé mi contraseña
-                TextButton(
-                    onClick = { /* TODO: Navegar a recuperación */ },
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = "¿Olvidaste tu contraseña?",
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
+//                TextButton(
+//                    onClick = { /* TODO: Navegar a recuperación */ },
+//                    modifier = Modifier.padding(top = 8.dp)
+//                ) {
+//                    Text(
+//                        text = "¿Olvidaste tu contraseña?",
+//                        color = MaterialTheme.colorScheme.primary
+//                    )
+//                }
 
                 //  Mensaje de error
                 if (loginState is LoginState.Error) {
