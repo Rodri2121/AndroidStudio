@@ -2,11 +2,11 @@
 <network-security-config>
     <!-- Permite HTTP (CLEARTEXT) para dominios específicos (solo desarrollo) -->
     <domain-config cleartextTrafficPermitted="true">
-        <!-- Para el emulador Android -->
+
         <domain includeSubdomains="true">10.0.2.2</domain>
-        <!-- Para tu IP local (reemplaza X.X.X.X) -->
-        <domain includeSubdomains="true">192.168.0.2</domain>
-        <!-- Si usas un dominio personalizado -->
+
+        <domain includeSubdomains="true">192.168.0.3</domain>
+
         <domain includeSubdomains="true">tuserver.local</domain>
     </domain-config>
 </network-security-config>
