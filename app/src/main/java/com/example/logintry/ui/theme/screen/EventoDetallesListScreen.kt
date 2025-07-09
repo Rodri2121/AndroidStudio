@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -52,6 +53,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -90,17 +92,29 @@ fun EventoFacultativoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Eventos",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold
-                ) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                modifier =  Modifier.height(70.dp),
+                title = {
+                    Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center){
+                        Text("Lista de Eventos",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    },
 
 
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Volver")
+                    Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center){
+                        IconButton(onClick = onBack) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = MaterialTheme.colorScheme.onPrimary)
+                        }
                     }
+
                 }
             )
         }
@@ -108,7 +122,7 @@ fun EventoFacultativoScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+
         ) {
             // Fondo con imagen
             Image(
@@ -137,13 +151,16 @@ fun EventoFacultativoScreen(
                 Resource.Loading -> FullScreenLoader()
                 is Resource.Success -> EventoListContent(
                     eventos = currentState.data ?: emptyList(),
-                    onItemClick = { eventoSeleccionado = it }
+                    onItemClick = { eventoSeleccionado = it },
+                    modifier = Modifier.padding(padding)
                 )
                 is Resource.Error -> ErrorState(
                     message = currentState.message ?: "Error desconocido",
-                    onRetry = { viewModel.obtenerEventos() }
+                    onRetry = { viewModel.obtenerEventos() },
+                    modifier = Modifier.padding(padding)
                 )
-                else -> {}
+                else -> {
+                }
             }
 
             eventoSeleccionado?.let { evento ->
